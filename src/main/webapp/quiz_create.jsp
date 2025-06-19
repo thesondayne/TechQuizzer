@@ -91,7 +91,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-4 mb-3">
+                    <div class="col-md-4 mb-2">
                         <label for="level" class="form-label">Quiz Level</label>
                         <select class="form-select" id="level" name="level" required>
                             <option value="" selected disabled>Select level</option>
@@ -100,7 +100,14 @@
                             <option value="Hard">Hard</option>
                         </select>
                     </div>
-
+                    <div class="col-md-4 mb-2">
+                        <label for="format" class="form-label">Quiz Format</label>
+                    <select class="form-select" id="format" name="format" required>
+                        <option value="" selected disabled>Select quiz format</option>
+                        <option value="Multiple">Multiple</option>
+                        <option value="Essay">Essay</option>
+                    </select>
+                    </div>
                     <div class="col-md-4 mb-3">
                         <label for="duration" class="form-label">Duration (minutes)</label>
                         <input type="number" class="form-control" id="duration" name="duration"

@@ -32,7 +32,7 @@ public class QuizDAO extends DBContext {
     }
     public QuizDTO findByQuizId(int id){
         String sql = "SELECT q.id, q.name as quiz_name, q.subject_id, q.test_type_id, q.quiz_setting_id, " +
-                "s.name as subject_name, q.level, qs.number_question, q.duration, q.pass_rate, " +
+                "s.name as subject_name, q.level, qs.number_question, q.duration, q.pass_rate,q.format, " +
                 "q.status, tt.name as test_type_name " +
                 "FROM [quizzes] q " +
                 "LEFT JOIN [subjects] s ON q.subject_id = s.id " +
@@ -48,6 +48,7 @@ public class QuizDAO extends DBContext {
                     quizDTO.setId(id);
                     quizDTO.setName(rs.getString("quiz_name"));
                     quizDTO.setLevel(rs.getString("level"));
+
                     quizDTO.setDuration(rs.getInt("duration"));
                     quizDTO.setPassRate(rs.getInt("pass_rate"));
                     quizDTO.setStatus(rs.getInt("status"));
@@ -66,7 +67,7 @@ public class QuizDAO extends DBContext {
                     quizSetting.setId(rs.getInt("quiz_setting_id"));
                     quizSetting.setNumberOfQuestions(rs.getInt("number_question"));
                     quizDTO.setQuizSetting(quizSetting);
-
+                    quizDTO.setFormat(rs.getString("format"));
                     return quizDTO;
                 }
             }
@@ -83,7 +84,7 @@ public List<QuizDTO> getQuizzesByPage(String subjectName, String testTypeName, S
         StringBuilder sql = new StringBuilder(
                 "SELECT q.id, q.name, q.level, qs.number_question, q.duration, q.pass_rate, q.status, q.quiz_setting_id, " +
                         "s.id AS subject_id, s.name AS subject_name, " +
-                        "t.id AS test_type_id, t.name AS test_type_name " +
+                        "t.id AS test_type_id, t.name AS test_type_name,q.format " +
                         "FROM quizzes q " +
                         "JOIN subjects s ON q.subject_id = s.id " +
                         "JOIN test_types t ON q.test_type_id = t.id " +
@@ -129,8 +130,10 @@ public List<QuizDTO> getQuizzesByPage(String subjectName, String testTypeName, S
                 QuizDTO dto = new QuizDTO();
                 dto.setId(rs.getInt("id"));
                 dto.setName(rs.getString("name"));
+                dto.setFormat(rs.getString("format"));
                 dto.setLevel(rs.getString("level"));
                 dto.setDuration(rs.getInt("duration"));
+
                 dto.setPassRate(rs.getInt("pass_rate"));
                 dto.setStatus(rs.getInt("status"));
 
@@ -322,22 +325,22 @@ public Quiz findById(int id) {
     }
 
     public boolean createQuiz(Quiz quiz) throws SQLException {
-        String sql = "INSERT INTO [quizzes] ([name], [level], [duration], [pass_rate], " +
+        String sql = "INSERT INTO [quizzes] ([format],[name], [level], [duration], [pass_rate], " +
                 "[description], [status], [test_type_id], [subject_id], [quiz_setting_id]) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (
              PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            ps.setString(1, quiz.getName());
-            ps.setString(2, quiz.getLevel());
-            ps.setInt(3, quiz.getDuration());
-            ps.setInt(4, quiz.getPassRate());
-            ps.setString(5, quiz.getDescription());
-            ps.setInt(6, quiz.getStatus());
-            ps.setInt(7, quiz.getTestTypeId());
-            ps.setInt(8, quiz.getSubjectId());
-            ps.setInt(9, quiz.getQuizSettingId());
+            ps.setString(1, quiz.getFormat());
+            ps.setString(2, quiz.getName());
+            ps.setString(3, quiz.getLevel());
+            ps.setInt(4, quiz.getDuration());
+            ps.setInt(5, quiz.getPassRate());
+            ps.setString(6, quiz.getDescription());
+            ps.setInt(7, quiz.getStatus());
+            ps.setInt(8, quiz.getTestTypeId());
+            ps.setInt(9, quiz.getSubjectId());
+            ps.setInt(10, quiz.getQuizSettingId());
 
             return ps.executeUpdate() > 0;
         } catch (Exception e) {

@@ -15,6 +15,7 @@ public class QuizDTO {
     private int status;
     private int  duration;
     private int passRate;
+    private String format;
 
 
     public int getId() {
@@ -87,5 +88,13 @@ public class QuizDTO {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
     }
 }

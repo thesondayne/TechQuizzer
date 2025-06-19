@@ -59,6 +59,7 @@ public class GetQuizzesDetailServlet extends HttpServlet {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
+
                 request.setAttribute("hasAttempt", hasAttempt);
                 request.setAttribute("dimensions", dimensions);
                 request.setAttribute("lessons", lessons);

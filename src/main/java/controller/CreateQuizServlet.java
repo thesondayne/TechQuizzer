@@ -28,7 +28,7 @@ public class CreateQuizServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        System.out.println("email: " + user.getEmail());
+
         try {
             SubjectDAO subjectDAO = new SubjectDAO();
             DimensionDAO dimensionDAO = new DimensionDAO();
@@ -86,6 +86,7 @@ public class CreateQuizServlet extends HttpServlet {
             String name = request.getParameter("name");
             int subjectId = Integer.parseInt(request.getParameter("subjectId"));
             String level = request.getParameter("level");
+            String format = request.getParameter("format");
             int duration = Integer.parseInt(request.getParameter("duration"));
             int passRate = Integer.parseInt(request.getParameter("passRate"));
             int testTypeId = Integer.parseInt(request.getParameter("testTypeId"));
@@ -167,6 +168,7 @@ public class CreateQuizServlet extends HttpServlet {
             Quiz quiz = new Quiz();
             quiz.setName(name.trim());
             quiz.setLevel(level);
+            quiz.setFormat(format);
             quiz.setDuration(duration*60);
             quiz.setPassRate(passRate);
             quiz.setDescription(description);
